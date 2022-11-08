@@ -1,9 +1,12 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 const mongoose = require("mongoose");
 const Thing = require("./models/thing");
+
 const stuffRoutes = require("./routes/stuff");
+const userRoutes = require("./routes/users");
 
 mongoose
   .connect(
@@ -28,7 +31,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.json());
+
 app.use("/api/stuff", stuffRoutes);
+app.use("/api/auth", userRoutes);
 
 /* app.post("/api/stuff", (req, res, next) => {
   delete req.body._id;
